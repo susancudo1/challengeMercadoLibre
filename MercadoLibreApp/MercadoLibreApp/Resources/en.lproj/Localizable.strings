@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  MercadoLibreApp
+
+  Created by Javier Susa on 18/08/21.
+  Copyright © 2021 Javier Susa. All rights reserved.
+*/
+
+// SearchView
+"placeholder_search_view" = "Search in mercadolibre";
+"search_button_search_view" = "Search";
+"title_alert_search_view" = "Error!!";
+"message_alert_search_view" = "Please include some text to search";
+"button_alert_search_view" = "OK";
+
+//ListView
+"title_alert_no_coincidences_list_view" = "No coincidences";
+"message_alert_no_coincidences_list_view" = "No matches found for your search, please try again";
+"title_alert_error_network_list_view" = "Without Internet";
+"message_alert_error_network_list_view" = "Currently you do not have an internet connection";

@@ -9,15 +9,19 @@
 import SwiftUI
 
 struct DetailsView: View {
-    
-    @Environment(\.presentationMode) var presentationMode
-    
+
     var product: Product
+    @Binding var isNavigationBarHidden: Bool
+
+    init(product: Product,
+         isNavigationBarHidden: Binding<Bool>) {
+        self.product = product
+        self._isNavigationBarHidden = isNavigationBarHidden
+    }
     
     var body: some View {
         ScrollView {
             VStack {
-                
                 if product.imageData != nil {
                     Image(uiImage: UIImage(data: (product.imageData)!)!)
                         .resizable()
@@ -27,7 +31,7 @@ struct DetailsView: View {
                 } else {
                     Image(systemName: "xmark.octagon")
                         .resizable()
-                        .scaledToFill()
+                        .scaledToFit()
                         .frame(width: 300)
                     .cornerRadius(30)
                 }
@@ -37,6 +41,9 @@ struct DetailsView: View {
                         Text("\(product.condition.capitalizingFirstLetter()) - \(product.seller.seller_reputation.transactions.completed) Vendidos")
                             .font(.subheadline)
                             .foregroundColor(.gray)
+                            .onAppear {
+                                self.isNavigationBarHidden = true
+                            }
                         
                         Text("\(product.title)")
                         .font(.largeTitle)
@@ -52,25 +59,7 @@ struct DetailsView: View {
                 }.padding()
                 Spacer()
             }
-        }.edgesIgnoringSafeArea(.top)
-        .overlay(
-            HStack {
-                    Spacer()
-                    VStack {
-                        Button(action: {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }){
-                            Image(systemName: "chevron.down.circle")
-                                .font(.largeTitle)
-                                .foregroundColor(Color(UIColor.systemGray))
-                        }
-                        .padding(.trailing)
-                        .padding(.top, 20)
-                        Spacer()
-                    }
-                    
-            }
-        )
+        }
         
     }
 }
@@ -84,8 +73,8 @@ struct DetailsView_Previews: PreviewProvider {
                                      imageData: nil,
                                      condition: "Nuevo",
                                      seller: Seller(seller_reputation: SellerReputation(transactions: Transactions(ratings: Ratings(positive: 0.2), completed: 10))),
-                                     currency_id: "COP"
-        ))
+                                     currency_id: "COP"),
+                    isNavigationBarHidden: .constant(true))
     }
 }
 

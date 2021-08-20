@@ -1,0 +1,20 @@
+/* 
+  Locaizable.strings
+  MercadoLibreApp
+
+  Created by Javier Susa on 18/08/21.
+  Copyright © 2021 Javier Susa. All rights reserved.
+*/
+
+// SearchView
+"placeholder_search_view" = "Buscar en mercadolibre";
+"search_button_search_view" = "Buscar";
+"title_alert_search_view" = "Error!!";
+"message_alert_search_view" = "Por favor incluye algún texto para buscar";
+"button_alert_search_view" = "OK";
+
+//ListView
+"title_alert_no_coincidences_list_view" = "No hay coincidencias";
+"message_alert_no_coincidences_list_view" = "No se encontraron coincidencias para tu búsqueda, por favor intenta de nuevo";
+"title_alert_error_network_list_view" = "Sin Internet";
+"message_alert_error_network_list_view" = "Actualmente no cuentas con conexión a internet";
