@@ -8,25 +8,28 @@
 
 import Foundation
 
-class DownloadImageWorker {
-    
+class DownloadImageWorker: DownloadImageWorkerProtocol {
+
     let mercadoLibreUrlWorkerObj = MercadoLibreURLWorker()
     let setupRequestWorkerObj = SetupRequestWorker()
-    
+
     private let session: URLSessionProtocol
-    
+
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
-    
+
     func getImage(_ product: Product, completion: @escaping (Bool, Data?) -> Void) {
         let request = setupRequestWorkerObj.setupGetRequest(mainUrl: product.thumbnail)
         session.dataTask(with: request, completionHandler: { data, response, error -> Void in
             self.responseCompletionImage(response, data, error, completion: completion)
         }).resume()
     }
-    
-    fileprivate func responseCompletionImage(_ response: URLResponse?, _ data: Data?, _ error: Error?, completion: @escaping (Bool, Data?) -> Void) {
+
+    fileprivate func responseCompletionImage(_ response: URLResponse?,
+                                             _ data: Data?,
+                                             _ error: Error?,
+                                             completion: @escaping (Bool, Data?) -> Void) {
         DispatchQueue.main.async {
             let httpStatus = response as? HTTPURLResponse
             if httpStatus?.statusCode == 200 {
@@ -39,4 +42,3 @@ class DownloadImageWorker {
         }
     }
 }
-

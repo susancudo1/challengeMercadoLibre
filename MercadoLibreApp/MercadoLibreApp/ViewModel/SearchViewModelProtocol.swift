@@ -18,6 +18,8 @@ protocol SearchViewModelProtocol {
     var messageAlert: String { get set }
     var showAlertView: Bool { get set }
     var arrayPorducts: [Product] { get set }
-    var selectedProduct: Product? { get set }
+    var selectedProduct: String? { get set }
     var showModalView: Bool { get set }
+    var isNewLoading: Bool { get set }
+    var oldSearchText: String { get set }
 }

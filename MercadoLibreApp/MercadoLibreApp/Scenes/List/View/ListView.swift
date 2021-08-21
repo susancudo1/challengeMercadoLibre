@@ -13,7 +13,6 @@ struct ListView: View {
     @ObservedObject private var viewModel: SearchViewModel
     @Environment(\.presentationMode) var presentationMode
     @Binding var isNavigationBarHidden: Bool
-    @State private var isNewLoading = true
 
     var searchText: String
     private var presenter: ListPresenter
@@ -28,24 +27,49 @@ struct ListView: View {
         self._isNavigationBarHidden = isNavigationBarHidden
 
     }
-    
+
     var body: some View {
-        
+
         VStack {
             ZStack {
-                List(self.viewModel.arrayPorducts, id: \.id) { product in
-                    NavigationLink(destination: DetailsView(product: product,
-                                                            isNavigationBarHidden: self.$isNavigationBarHidden)) {
+            HStack {
+                Button(action: {
+                    self.viewModel.action = nil
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image(systemName: "chevron.backward")
+                }).padding(.all)
+                Spacer()
+            }
+                Text(self.searchText)
+            }
+            ZStack {
+                ScrollView {
+                    VStack {
+                    ForEach(self.viewModel.arrayPorducts, id: \.ident) { product in
+                        NavigationLink(destination: DetailsView(product: product,
+                                                                isNavigationBarHidden: self.$isNavigationBarHidden),
+                                       tag: product.ident,
+                                       selection: self.$viewModel.selectedProduct) {
+                            EmptyView()
+                        }
                         CellView(product: product)
-                            .buttonStyle(PlainButtonStyle())
+                            .onTapGesture {
+                                self.viewModel.selectedProduct = product.ident
+                            }
+
+                    }
                     }
                 }
-                .navigationBarTitle(self.searchText, displayMode: .inline)
+                .navigationBarTitle(self.searchText)
                 .onAppear {
-                    self.isNavigationBarHidden = false
-                    if isNewLoading {
-                    self.presenter.search(searchText: self.searchText)
-                        self.isNewLoading = false
+                    self.viewModel.selectedProduct = nil
+
+                    if self.viewModel.isNewLoading && self.viewModel.oldSearchText != self.searchText {
+                        self.viewModel.arrayPorducts.removeAll()
+                        self.viewModel.oldSearchText = self.searchText
+                        self.presenter.search(searchText: self.searchText)
+                        self.viewModel.isNewLoading = false
                     }
                 }
                 .alert(isPresented: self.$viewModel.showAlertView) {
@@ -59,14 +83,14 @@ struct ListView: View {
                 .onDisappear {
                     self.presenter.stopMonitoring()
                 }
-
-                LoadingView()
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
                     .opacity(self.viewModel.arrayPorducts.isEmpty ? 1.0 : 0.0)
-            }
+                    .edgesIgnoringSafeArea(.all)
+            }.navigationBarHidden(self.isNavigationBarHidden)
         }
-        .edgesIgnoringSafeArea(.all)
     }
-    
+
     struct ListView_Previews: PreviewProvider {
         static var previews: some View {
             ListView(searchText: "cama",

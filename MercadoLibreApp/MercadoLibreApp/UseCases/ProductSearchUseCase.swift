@@ -9,18 +9,17 @@
 import Foundation
 
 class ProductSearchUseCase: ProductSearchUseCaseProtocol {
-    let mercadoLibreWorker: MercadoLibreWorker
-    let downloadImageWorker: DownloadImageWorker
+    let mercadoLibreWorker: MercadoLibreWorkerProtocol
+    let downloadImageWorker: DownloadImageWorkerProtocol
 
-    init() {
-        let mercadoLibreWorker = MercadoLibreWorker()
-        let downloadImageWorker = DownloadImageWorker()
+    init(mercadoLibreWorker: MercadoLibreWorkerProtocol,
+         downloadImageWorker: DownloadImageWorkerProtocol) {
         self.mercadoLibreWorker = mercadoLibreWorker
         self.downloadImageWorker = downloadImageWorker
     }
 
     func search(searchText: String, completion: @escaping ([Product]?) -> Void) {
-        //Busca el producto en el servicio expuesto en mercado libre
+        // Busca el producto en el servicio expuesto en mercado libre
         self.mercadoLibreWorker.getSearch(searchText: searchText) { (success, products) in
             if success {
 
@@ -29,7 +28,7 @@ class ProductSearchUseCase: ProductSearchUseCaseProtocol {
                     return
                 }
                 if var newProducts = products {
-                    //Por cada producto encontrado se busca su imagen
+                    // Por cada producto encontrado se busca su imagen
                     for index in 0...newProducts.count - 1 {
                         self.downloadImageWorker.getImage(newProducts[index]) { (success, imageData) in
                             if success {

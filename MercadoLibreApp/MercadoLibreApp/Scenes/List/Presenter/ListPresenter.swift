@@ -21,11 +21,11 @@ class ListPresenter {
     }
 
     func search(searchText: String) {
-        //Validacion de conexion a internet
+        // Validacion de conexion a internet
         self.startMonitoring { isConnected in
             DispatchQueue.main.async {
                 if isConnected {
-                    //Inicia la busqueda
+                    // Inicia la busqueda
                     self.productSearchUseCase.search(searchText: searchText) { products in
                         if products == nil {
                             self.viewModel.titleAlert = "title_alert_no_coincidences_list_view".localized
@@ -46,7 +46,7 @@ class ListPresenter {
     }
 
     func startMonitoring(completion: @escaping (Bool) -> Void) {
-        //Validacion de conexion a internet
+        // Validacion de conexion a internet
         self.checkInternet.startMonitoring { isConnected in
             if isConnected {
                 completion(true)

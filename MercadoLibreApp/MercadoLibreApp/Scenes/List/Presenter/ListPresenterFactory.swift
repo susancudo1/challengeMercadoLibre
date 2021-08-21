@@ -17,6 +17,7 @@ class ListPresenterFactory {
 
     func createPresenter() -> ListPresenter {
         return ListPresenter(viewModel: self.viewModel,
-                             productSearchUseCase: ProductSearchUseCase())
+                             productSearchUseCase: ProductSearchUseCase(mercadoLibreWorker: MercadoLibreWorker(),
+                                                                        downloadImageWorker: DownloadImageWorker()))
     }
 }

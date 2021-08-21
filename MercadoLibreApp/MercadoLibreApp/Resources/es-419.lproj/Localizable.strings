@@ -18,3 +18,6 @@
 "message_alert_no_coincidences_list_view" = "No se encontraron coincidencias para tu búsqueda, por favor intenta de nuevo";
 "title_alert_error_network_list_view" = "Sin Internet";
 "message_alert_error_network_list_view" = "Actualmente no cuentas con conexión a internet";
+
+//DetailsView
+"text_sold_detaails_view" = "Vendidos";

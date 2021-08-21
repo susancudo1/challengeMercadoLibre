@@ -20,6 +20,8 @@ class SearchViewModel: ObservableObject, SearchViewModelProtocol {
     @Published var messageAlert: String = ""
     @Published var showAlertView: Bool = false
     @Published var arrayPorducts: [Product] = []
-    @Published var selectedProduct: Product?
+    @Published var selectedProduct: String?
     @Published var showModalView: Bool = false
+    @Published var isNewLoading: Bool = true
+    @Published var oldSearchText: String = ""
 }

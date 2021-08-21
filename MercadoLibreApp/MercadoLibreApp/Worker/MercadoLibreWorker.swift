@@ -8,13 +8,13 @@
 
 import Foundation
 
-class MercadoLibreWorker {
-    
+class MercadoLibreWorker: MercadoLibreWorkerProtocol {
+
     let mercadoLibreUrlWorkerObj = MercadoLibreURLWorker()
     let setupRequestWorkerObj = SetupRequestWorker()
-    
+
     private let session: URLSessionProtocol
-    
+
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
@@ -22,15 +22,19 @@ class MercadoLibreWorker {
     func getSearch(searchText: String, completion: @escaping (Bool, [Product]?) -> Void) {
         var getGetProductsSearchUrl = self.mercadoLibreUrlWorkerObj.getProductsSearchUrl()
         getGetProductsSearchUrl += searchText
-        getGetProductsSearchUrl = getGetProductsSearchUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        getGetProductsSearchUrl = getGetProductsSearchUrl.addingPercentEncoding(withAllowedCharacters:
+                                                                                    .urlQueryAllowed)!
         let request = setupRequestWorkerObj.setupGetRequest(mainUrl: getGetProductsSearchUrl)
-        
+
         session.dataTask(with: request, completionHandler: { data, response, error -> Void in
             self.responseCompletion(response, data, error, completion: completion)
         }).resume()
     }
-    
-    fileprivate func responseCompletion(_ response: URLResponse?, _ data: Data?, _ error: Error?, completion: @escaping (Bool, [Product]?) -> Void) {
+
+    fileprivate func responseCompletion(_ response: URLResponse?,
+                                        _ data: Data?,
+                                        _ error: Error?,
+                                        completion: @escaping (Bool, [Product]?) -> Void) {
         DispatchQueue.main.async {
             do {
                 let httpStatus = response as? HTTPURLResponse
@@ -50,4 +54,3 @@ class MercadoLibreWorker {
         }
     }
 }
-

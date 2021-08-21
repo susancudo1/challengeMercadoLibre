@@ -18,3 +18,7 @@
 "message_alert_no_coincidences_list_view" = "No matches found for your search, please try again";
 "title_alert_error_network_list_view" = "Without Internet";
 "message_alert_error_network_list_view" = "Currently you do not have an internet connection";
+
+//DetailsView
+"text_sold_detaails_view" = "Sold";
+
